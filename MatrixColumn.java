@@ -16,29 +16,24 @@ public class MatrixColumn {
     }
 
     public void insert(ValueNode value) {
-        if (value.getRow() < first.getRow()) { // insert beforehand
-            value.setNextRow(first);
+        if (first == null) { // insert beforehand    
             first = value;
         } 
-        else if (first == null) { // empty row, set as first
+        else if (value.getRow() < first.getRow()) { // empty row, set as first
+            value.setNextRow(first);
             first = value;
         }
         else {
             ValueNode currentNode = first;
-            while (currentNode.getNextRow() != null) {
-
-                if ((currentNode.getRow() < value.getRow()) && 
-                    (currentNode.getNextRow().getRow() > value.getRow())) {                 
+            while (currentNode.getNextRow() != null) {  
+                if ((currentNode.getRow() < value.getRow()) && (currentNode.getNextRow().getRow() > value.getRow())) {                 
                     value.setNextRow(currentNode.getNextRow());
                     currentNode.setNextRow(value);
-                    break;
-                }
-                else if (currentNode.getNextRow() == null) {
-                    currentNode.setNextRow(value);
-                    break;
+                    return;
                 }
                 currentNode = currentNode.getNextRow();
             }
+            currentNode.setNextRow(value);
         }
     }
 
@@ -47,7 +42,9 @@ public class MatrixColumn {
             return 0;
         else {
             ValueNode currentNode = first;
-            while (currentNode.getRow() < position) {
+            while(currentNode.getRow() < position) {
+                if (currentNode.getNextRow() == null)
+                    return 0;
                 currentNode = currentNode.getNextRow();
             }
             if (currentNode.getRow() == position)

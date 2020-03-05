@@ -4,6 +4,7 @@ public class SparseMatrix {
     private int totalColumns;
     private MatrixRow firstRow;
     private MatrixColumn firstColumn;
+    private int maxDigits = 1;
 
     public SparseMatrix(int rows, int columns) {
         this.totalRows = rows;
@@ -33,6 +34,10 @@ public class SparseMatrix {
         rr.insert(node);
         rc.insert(node);
 
+        int digits = (value + "").length();
+        if (digits > maxDigits && column != totalColumns)
+            maxDigits = digits;
+
     }
 
     public MatrixRow getRow(int position) {
@@ -58,7 +63,8 @@ public class SparseMatrix {
     public void print() {
         for (int i = 1; totalRows >= i; i++){
             for (int j = 1; totalColumns >= j; j++){
-                System.out.print(getValue(i,j));
+                int val = getValue(i,j);
+                System.out.print(val  + " ".repeat(maxDigits + 1 - (val + "").length()));
             }
             System.out.println();
         }

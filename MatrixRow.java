@@ -16,39 +16,36 @@ public class MatrixRow {
     }
 
     public void insert(ValueNode value) {
-        if (value.getColumn() < first.getColumn()) { // insert beforehand
-            value.setNextColumn(first);
+        if (first == null) { // empty row, set as first
             first = value;
         } 
-        else if (first == null) { // empty row, set as first
+        else if (value.getColumn() < first.getColumn()) { // insert beforehand
+            value.setNextColumn(first);
             first = value;
         }
         else {
             ValueNode currentNode = first;
-            while (currentNode.getNextColumn() != null) {
-
-                if ((currentNode.getColumn() < value.getColumn()) && 
-                    (currentNode.getNextColumn().getColumn() > value.getColumn())) {                 
+            while (currentNode.getNextColumn() != null) {  
+                if ((currentNode.getColumn() < value.getColumn()) && (currentNode.getNextColumn().getColumn() > value.getColumn())) {                 
                     value.setNextColumn(currentNode.getNextColumn());
                     currentNode.setNextColumn(value);
-                    break;
-                }
-                else if (currentNode.getNextColumn() == null) {
-                    currentNode.setNextColumn(value);
-                    break;
+                    return;
                 }
                 currentNode = currentNode.getNextColumn();
             }
+            currentNode.setNextColumn(value);
         }
 
     }
 
     public int get(int position) {
-        if (first == null || first.getColumn() < position)
+        if (first == null || first.getColumn() > position)
             return 0;
         else {
             ValueNode currentNode = first;
             while (currentNode.getColumn() < position) {
+                if (currentNode.getNextColumn() == null)
+                    return 0;
                 currentNode = currentNode.getNextColumn();
             }
             if (currentNode.getColumn() == position)

@@ -1,14 +1,18 @@
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 
 public class MatrixReader {
 
     public SparseMatrix read(String file){
+        SparseMatrix matrix = new SparseMatrix(3, 3);
         try{
-            Scanner scanner = new Scanner(file);
+            File f = new File(file);
+            Scanner scanner = new Scanner(f);
 
             int r = Integer.parseInt(scanner.nextLine()), c = Integer.parseInt(scanner.nextLine());
 
-            SparseMatrix matrix = new SparseMatrix(r,c);
+            matrix = new SparseMatrix(r,c);
 
             for(int i = 1; i <= r; i++){
                 String line = scanner.nextLine();
@@ -22,11 +26,10 @@ public class MatrixReader {
             }
 
             scanner.close();
-            return matrix;
         }
-        catch(Exception e){
+        catch(FileNotFoundException e){
             System.out.println("Too bad");
         }
-        return null;
+        return matrix;
     }
 }
