@@ -52,18 +52,44 @@ public class SparseMatrix {
     }
 
     public int getValue(int row, int column) {
-        return 0;
+        return getRow(row).get(column);
     }
 
     public void print() {
-
+        for (int i = 1; totalRows >= i; i++){
+            for (int j = 1; totalColumns >= j; j++){
+                System.out.print(getValue(i,j));
+            }
+            System.out.println();
+        }
     }
 
     public SparseMatrix transpose() {
-        return null;
+        SparseMatrix res = new SparseMatrix(this.totalColumns, this.totalRows);
+
+        for(int i = 1; i <= this.totalRows; i++){
+            for(int j = 1; j <= this.totalColumns; j++){
+                int val = getValue(i, j);
+                if(val != 0){
+                    res.insert(j, i, val);
+                }
+            }
+        }
+        return res;
     }
 
-    public SparseMatrix produce(SparseMatrix other) {
-        return null;
+    public SparseMatrix product(SparseMatrix other) {
+        SparseMatrix res = new SparseMatrix(this.totalRows, other.totalColumns);
+
+        for(int i = 1; i <= this.totalRows; i++) {
+            for(int j = 1; j <= other.totalColumns; j++) {
+                int val = 0;
+                for(int x = 1; x <= this.totalColumns; x++) {
+                    val += this.getValue(i, x) * other.getValue(x, j);
+                }
+                res.insert(i, j, val);
+            }
+        }
+        return res;
     }
 }
