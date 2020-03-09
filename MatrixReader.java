@@ -5,14 +5,14 @@ import java.io.FileNotFoundException;
 public class MatrixReader {
 
     public SparseMatrix read(String file){
-        SparseMatrix matrix = new SparseMatrix(3, 3);
+
         try{
             File f = new File(file);
             Scanner scanner = new Scanner(f);
 
             int r = Integer.parseInt(scanner.nextLine()), c = Integer.parseInt(scanner.nextLine());
 
-            matrix = new SparseMatrix(r,c);
+            SparseMatrix matrix = new SparseMatrix(r,c);
 
             for(int i = 1; i <= r; i++){
                 String line = scanner.nextLine();
@@ -26,10 +26,11 @@ public class MatrixReader {
             }
 
             scanner.close();
+            return matrix;
         }
         catch(FileNotFoundException e){
-            System.out.println("Too bad");
+            System.out.println("File " + file + " not found");
         }
-        return matrix;
+        return null;
     }
 }
