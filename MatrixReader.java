@@ -6,7 +6,7 @@ public class MatrixReader {
 
     public SparseMatrix read(String file){
 
-        try{
+        try{//Create file from the input path
             File f = new File(file);
             Scanner scanner = new Scanner(f);
 
@@ -14,7 +14,7 @@ public class MatrixReader {
 
             SparseMatrix matrix = new SparseMatrix(r,c);
 
-            for(int i = 1; i <= r; i++){
+            for(int i = 1; i <= r; i++){ //Loop through remaining lines and parse each pair of numbers as a new node
                 String line = scanner.nextLine();
                 if(line != ""){
                     String[] items = line.split(" ");

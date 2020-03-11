@@ -15,7 +15,7 @@ public class SparseMatrix {
         MatrixRow currentRow = firstRow;
         MatrixColumn currentColumn = firstColumn;
 
-        for (int i = 0; i < maxVal; i++) {
+        for (int i = 0; i < maxVal; i++) { // Create appropriate number of rows and columns
             if (i < rows) {
                 currentRow.setNext(new MatrixRow());
                 currentRow = currentRow.getNext();
@@ -60,7 +60,7 @@ public class SparseMatrix {
         return getRow(row).get(column);
     }
 
-    public void print() {
+    public void print() {//Prints Matrix In Console
         for (int i = 1; totalRows >= i; i++){
             for (int j = 1; totalColumns >= j; j++){
                 int val = getValue(i,j);
@@ -71,8 +71,10 @@ public class SparseMatrix {
     }
 
     public SparseMatrix transpose() {
+        //Resulting matrix
         SparseMatrix res = new SparseMatrix(this.totalColumns, this.totalRows);
 
+        //Get all values in matrix and insert it into the new matrix (Row and Column Switched) if it's not a 0
         for(int i = 1; i <= this.totalRows; i++){
             for(int j = 1; j <= this.totalColumns; j++){
                 int val = getValue(i, j);
@@ -85,12 +87,17 @@ public class SparseMatrix {
     }
 
     public SparseMatrix product(SparseMatrix other) {
+        if(this.totalColumns != other.totalRows){ // Return Null if you can't multiply matrices
+            System.out.println("Can't multiply matrices due to wrong size");
+            return null;
+        }
+
         SparseMatrix res = new SparseMatrix(this.totalRows, other.totalColumns);
 
-        for(int i = 1; i <= this.totalRows; i++) {
-            for(int j = 1; j <= other.totalColumns; j++) {
+        for(int i = 1; i <= this.totalRows; i++) { // Loop Through all rows of this matrix
+            for(int j = 1; j <= other.totalColumns; j++) { // Loop through all columns of second matrix
                 int val = 0;
-                for(int x = 1; x <= this.totalColumns; x++) {
+                for(int x = 1; x <= this.totalColumns; x++) { // Get product of item in this matrix row and other matrix column
                     val += this.getValue(i, x) * other.getValue(x, j);
                 }
                 res.insert(i, j, val);

@@ -25,7 +25,8 @@ public class MatrixRow {
         }
         else {
             ValueNode currentNode = first;
-            while (currentNode.getNextColumn() != null) {  
+            while (currentNode.getNextColumn() != null) {
+                //If node is meant to go between this column and the next, insert it and return
                 if ((currentNode.getColumn() < value.getColumn()) && (currentNode.getNextColumn().getColumn() > value.getColumn())) {                 
                     value.setNextColumn(currentNode.getNextColumn());
                     currentNode.setNextColumn(value);
@@ -38,6 +39,7 @@ public class MatrixRow {
 
     }
 
+    //Returns the value of the node in this row in the requested column position
     public int get(int position) {
         if (first == null || first.getColumn() > position)
             return 0;

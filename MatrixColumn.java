@@ -16,16 +16,17 @@ public class MatrixColumn {
     }
 
     public void insert(ValueNode value) {
-        if (first == null) { // insert beforehand    
+        if (first == null) { // empty column, set as first
             first = value;
         } 
-        else if (value.getRow() < first.getRow()) { // empty row, set as first
+        else if (value.getRow() < first.getRow()) { // insert beforehand
             value.setNextRow(first);
             first = value;
         }
         else {
             ValueNode currentNode = first;
-            while (currentNode.getNextRow() != null) {  
+            while (currentNode.getNextRow() != null) {
+                //If node is meant to go in between this row and the next row, put it in and return
                 if ((currentNode.getRow() < value.getRow()) && (currentNode.getNextRow().getRow() > value.getRow())) {                 
                     value.setNextRow(currentNode.getNextRow());
                     currentNode.setNextRow(value);
@@ -37,6 +38,7 @@ public class MatrixColumn {
         }
     }
 
+    //Returns the value of the node in this column in the requested row position
     public int get(int position) {
         if (first == null || first.getRow() < position)
             return 0;
